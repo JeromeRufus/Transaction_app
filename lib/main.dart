@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
-import './widgets/transaction_list.dart';
-import './models/transaction.dart';
-import 'widgets/new_transcation.dart';
-import 'widgets/transaction_list.dart';
+import 'package:transaction_app/widgets/user_transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,71 +9,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter App',
       home: MyHomePage(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   // String titleInput;
   // String amountInput;
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Groceries',
-      amount: 16.53,
-      date: DateTime.now(),
-    ),
-  ];
-
-  void _addNewTransaction(String txTitle, double txAmount) {
-    final newTx = Transaction(
-      title: txTitle,
-      amount: txAmount,
-      date: DateTime.now(),
-      id: DateTime.now().toString(),
-    );
-
-    setState(() {
-      _userTransactions.add(newTx);
-    });
-  }
-
-  void _startAddNewTransaction(BuildContext ctx) {
-    showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: NewTransaction(_addNewTransaction),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
-  }
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter App'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -92,14 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 5,
               ),
             ),
-            TransactionList(_userTransactions),
+            UserTransactions(),
           ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }
